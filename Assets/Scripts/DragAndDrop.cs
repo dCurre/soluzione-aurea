@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class DragAndDrop : MonoBehaviour
@@ -21,12 +23,12 @@ public class DragAndDrop : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         isOverDropZone = true;
-        dropZone = null;
+        dropZone = collision.gameObject;
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
         isOverDropZone = false;
-        dropZone = collision.gameObject;
+        dropZone = null;
     }
 
     public void StartDrag()
@@ -39,10 +41,22 @@ public class DragAndDrop : MonoBehaviour
         isDragging = false;
         if (isOverDropZone)
         {
+            dropZone = getLastDropZoneChild(dropZone);
             transform.SetParent(dropZone.transform, false);
-        } else
+        }
+        else
         {
             transform.position = startPosition;
         }
+    }
+
+    private GameObject getLastDropZoneChild(GameObject dropZone)
+    {
+        while (dropZone.transform.childCount > 0)
+        {
+            dropZone = dropZone.transform.GetChild(0).gameObject;
+        }
+
+        return dropZone;
     }
 }

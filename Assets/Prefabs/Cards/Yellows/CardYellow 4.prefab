@@ -16,7 +16,8 @@ GameObject:
   - component: {fileID: 1738939756797894122}
   - component: {fileID: -843081049637283530}
   - component: {fileID: -2002639606336749125}
-  m_Layer: 5
+  - component: {fileID: 9092752769333394835}
+  m_Layer: 3
   m_Name: CardYellow 4
   m_TagString: Card
   m_Icon: {fileID: 0}
@@ -194,7 +195,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 120, y: 50}
+  m_Size: {x: 60, y: 50}
   m_EdgeRadius: 0
 --- !u!50 &-2002639606336749125
 Rigidbody2D:
@@ -223,3 +224,27 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 7
+--- !u!114 &9092752769333394835
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4613967013397947827}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a8695521f0d02e499659fee002a26c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Padding:
+    m_Left: 0
+    m_Right: -20
+    m_Top: 0
+    m_Bottom: 0
+  m_ChildAlignment: 5
+  m_StartCorner: 0
+  m_StartAxis: 0
+  m_CellSize: {x: 120, y: 177}
+  m_Spacing: {x: 0, y: 0}
+  m_Constraint: 2
+  m_ConstraintCount: 1
