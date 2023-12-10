@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8514530426762958568}
   - component: {fileID: 759675037133090909}
   - component: {fileID: 7394005123040625430}
+  - component: {fileID: 9065144003392236575}
   m_Layer: 5
   m_Name: DrawCardsButton
   m_TagString: Untagged
@@ -121,9 +122,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1442517180534969679}
-        m_TargetAssemblyTypeName: UnityEngine.Object, UnityEngine
-        m_MethodName: 
+      - m_Target: {fileID: 9065144003392236575}
+        m_TargetAssemblyTypeName: DrawCardsScript, Assembly-CSharp
+        m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -133,6 +134,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &9065144003392236575
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1442517180534969679}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b9b34357e9b05c44a4d22a79faaa09f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Game: {fileID: 0}
+  activePlayer: {fileID: 0}
 --- !u!1 &2870241591214466938
 GameObject:
   m_ObjectHideFlags: 0
