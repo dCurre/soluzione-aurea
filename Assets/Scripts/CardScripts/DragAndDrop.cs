@@ -10,10 +10,12 @@ public class DragAndDrop : MonoBehaviour
     private GameObject ActivePlayer;
 
     private bool isDragging = false;
+
+    [SerializeField]
     private bool isOverDropZone = false;
     private Card draggedCardScript;
     private Vector2 pickUpCardPosition;
-    private GameObject pickUpCardZone;
+    private GameObject zoneToReturn;
     private GameObject dropZone;
 
     private void Awake()
@@ -34,6 +36,7 @@ public class DragAndDrop : MonoBehaviour
     {
         isOverDropZone = true;
         dropZone = collision.gameObject;
+        //Debug.Log("COLLISION: " + dropZone.name);
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
@@ -43,12 +46,14 @@ public class DragAndDrop : MonoBehaviour
 
     public void StartDrag()
     {
-        pickUpCardZone = transform.parent.gameObject;
+        zoneToReturn = transform.parent.gameObject;
         pickUpCardPosition = transform.position;
         draggedCardScript = transform.GetComponent<Card>();
-        isDragging =
-            (pickUpCardZone.tag == TagConstants.Player && pickUpCardZone == ActivePlayer.GetComponent<ActivePlayer>().getActivePlayer())
-            || (pickUpCardZone.tag != TagConstants.Player);
+
+        //If the card is in hand of the right player (turn of that player) or is in a dropzone
+        isDragging = 
+            (zoneToReturn.tag == TagConstants.Player && zoneToReturn == ActivePlayer.GetComponent<ActivePlayer>().getActivePlayer())
+            || (zoneToReturn.tag != TagConstants.Player);
     }
     public void EndDrag()
     {
@@ -57,12 +62,11 @@ public class DragAndDrop : MonoBehaviour
         if (!isOverDropZone || !isValidDropzone(dropZone))
         {
             transform.position = pickUpCardPosition;
-            transform.SetParent(pickUpCardZone.transform, false);
+            transform.SetParent(zoneToReturn.transform, false);
             return;
         }
 
-        dropZone = Utils.getLastDropZoneChild(dropZone);
-        transform.SetParent(dropZone.transform, false);
+        transform.SetParent(Utils.getDropZoneParent(dropZone).transform, false);
     }
 
     private bool isValidDropzone(GameObject dropObject)
@@ -73,17 +77,16 @@ public class DragAndDrop : MonoBehaviour
          *  3. Different seed same value
          */
 
-        if(dropObject.transform.tag == TagConstants.Dropzone && dropObject.transform.childCount == 0)
+        GameObject dropZoneABC = Utils.getDropZoneParent(dropObject);
+        Transform dropZoneTransform = dropZoneABC.transform;
+        DropZone dropZoneScript = dropZoneABC.GetComponent<DropZone>();
+
+        if (dropZoneTransform.tag == TagConstants.Player || (dropZoneTransform.tag == TagConstants.Dropzone && dropZoneTransform.childCount == 0))
         {
             return true;
         }
 
-        GameObject dropZone = Utils.GetFirstGameObjectParent(dropObject, TagConstants.Dropzone);
-        DropZone dropZoneScript = dropZone.GetComponent<DropZone>();
-
-        List<GameObject> children = Utils.GetAllChildrenGameObjectsFromGameObject(dropZone);
-
-        foreach (GameObject child in children)
+        foreach (GameObject child in Utils.GetAllChildrenGameObjectsFromGameObject(dropZoneABC.transform))
         {
             Card childCardScript = child.GetComponent<Card>();
 

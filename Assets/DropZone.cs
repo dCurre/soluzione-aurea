@@ -13,9 +13,11 @@ public class DropZone : MonoBehaviour
 
     void Update()
     {
+        ;
+        List<GameObject> children = Utils.GetAllChildrenGameObjectsFromGameObject(Utils.sortCard(transform));
+        List<Card> cardList = getCardList(children);
 
-        List<GameObject> children = Utils.GetAllChildrenGameObjectsFromGameObject(transform.gameObject);
-        List<Card> cardList = sortChildren(getCardList(children));
+        if (cardList == null) return;
 
         if (children.Count < 2)
         {
@@ -35,15 +37,14 @@ public class DropZone : MonoBehaviour
         }
     }
 
-    private List<Card> sortChildren(List<Card> cardList)
-    {
-
-        return cardList;
-    }
-
     private List<Card> getCardList(List<GameObject> children)
     {
-        List < Card > cardList = new List<Card>();
+        if(children == null)
+        {
+            return null;
+        }
+
+        List <Card> cardList = new List<Card>();
         foreach (GameObject child in children)
         {
             cardList.Add(child.GetComponent<Card>());

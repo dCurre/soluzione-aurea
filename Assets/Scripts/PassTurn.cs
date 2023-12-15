@@ -72,7 +72,7 @@ public class PassTurn : MonoBehaviour
             return true;
         }
 
-        List<GameObject> children = Utils.GetAllChildrenGameObjectsFromGameObject(dropZone);
+        List<GameObject> children = Utils.GetAllChildrenGameObjectsFromGameObject(dropZone.transform);
 
         if (children.Count > 2)
         {
