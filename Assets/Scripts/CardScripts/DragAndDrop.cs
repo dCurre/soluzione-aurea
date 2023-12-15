@@ -35,8 +35,10 @@ public class DragAndDrop : MonoBehaviour
     private void OnCollisionEnter2D(Collision2D collision)
     {
         isOverDropZone = true;
-        dropZone = collision.gameObject;
-        //Debug.Log("COLLISION: " + dropZone.name);
+        dropZone = collision.gameObject.tag == TagConstants.Card ? Utils.getDropZoneParent(collision.gameObject) : collision.gameObject;
+
+        Debug.Log("COLLISION: " + dropZone.name);
+
     }
     private void OnCollisionExit2D(Collision2D collision)
     {
