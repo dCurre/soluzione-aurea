@@ -41,10 +41,4 @@ public class ActivePlayer : MonoBehaviour
     {
         textActivePlayer.text = activePlayer.ToString();
     }
-
-}
-public enum Player
-{
-    Player1,
-    Player2
 }

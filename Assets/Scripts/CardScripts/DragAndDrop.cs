@@ -7,17 +7,19 @@ using UnityEngine;
 public class DragAndDrop : MonoBehaviour
 {
     private GameObject Canvas;
+    private GameObject ActivePlayer;
 
     private bool isDragging = false;
     private bool isOverDropZone = false;
-    private Vector2 startPosition;
     private Card draggedCardScript;
-    private GameObject startParent;
+    private Vector2 pickUpCardPosition;
+    private GameObject pickUpCardZone;
     private GameObject dropZone;
 
     private void Awake()
     {
         Canvas = GameObject.Find("GameCanvas");
+        ActivePlayer = GameObject.Find("ActivePlayer");
     }
     void Update()
     {
@@ -41,46 +43,70 @@ public class DragAndDrop : MonoBehaviour
 
     public void StartDrag()
     {
-        startParent = transform.parent.gameObject;
-        startPosition = transform.position;
+        pickUpCardZone = transform.parent.gameObject;
+        pickUpCardPosition = transform.position;
         draggedCardScript = transform.GetComponent<Card>();
-        isDragging = true;
+        isDragging =
+            (pickUpCardZone.tag == TagConstants.Player && pickUpCardZone == ActivePlayer.GetComponent<ActivePlayer>().getActivePlayer())
+            || (pickUpCardZone.tag != TagConstants.Player);
     }
     public void EndDrag()
     {
         isDragging = false;
 
-        if (!isOverDropZone)
+        if (!isOverDropZone || !isValidDropzone(dropZone))
         {
-            transform.position = startPosition;
-            transform.SetParent(startParent.transform, false);
+            transform.position = pickUpCardPosition;
+            transform.SetParent(pickUpCardZone.transform, false);
             return;
         }
 
-        dropZone = getLastDropZoneChild(dropZone);
+        dropZone = Utils.getLastDropZoneChild(dropZone);
         transform.SetParent(dropZone.transform, false);
     }
 
-    private GameObject getLastDropZoneChild(GameObject dropZone)
+    private bool isValidDropzone(GameObject dropObject)
     {
-        while (dropZone.transform.childCount > 0)
-        {
-            dropZone = dropZone.transform.GetChild(0).gameObject;
-        }
+        /* A valid dropzone is:
+         *  1. A dropzone without child
+         *  2. Same seed different value
+         *  3. Different seed same value
+         */
 
-        return dropZone;
-    }
-
-    private bool isDropZoneValidCard(GameObject dropZone)
-    {
-        if(dropZone.transform.GetComponent<Card>() == null)
+        if(dropObject.transform.tag == TagConstants.Dropzone && dropObject.transform.childCount == 0)
         {
             return true;
         }
 
-        Card dropZoneCardScript = dropZone.transform.GetComponent<Card>();
+        GameObject dropZone = Utils.GetFirstGameObjectParent(dropObject, TagConstants.Dropzone);
+        DropZone dropZoneScript = dropZone.GetComponent<DropZone>();
 
-        return (draggedCardScript.value == (dropZoneCardScript.value + 1)
-                || draggedCardScript.value == (dropZoneCardScript.value - 1));
+        List<GameObject> children = Utils.GetAllChildrenGameObjectsFromGameObject(dropZone);
+
+        foreach (GameObject child in children)
+        {
+            Card childCardScript = child.GetComponent<Card>();
+
+            if(childCardScript != null)
+            {
+                if(Rules.isCardSameValueDifferentSeed(draggedCardScript, childCardScript, dropZoneScript))
+                {
+                    return true;
+                }
+
+                if(Rules.isCardNextValueSameSeed(draggedCardScript, childCardScript, dropZoneScript))
+                {
+                    return true;
+                }
+
+                if(Rules.isCardPreviousValueSameSeed(draggedCardScript, childCardScript, dropZoneScript))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
+
 }

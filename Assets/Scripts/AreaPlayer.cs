@@ -6,6 +6,7 @@ using UnityEngine.SocialPlatforms.Impl;
 public class AreaPlayer : MonoBehaviour
 {
     public int cardsInHand;
+    public Player player;
 
     public void Start()
     {
