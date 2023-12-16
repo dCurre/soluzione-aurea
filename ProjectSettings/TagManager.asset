@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Card
   - Dropzone
+  - DiscardZone
   layers:
   - Default
   - TransparentFX

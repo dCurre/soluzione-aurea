@@ -6,8 +6,6 @@ using UnityEngine;
 
 public class Utils : MonoBehaviour
 {
-    private static bool _debug = true;
-
     public static List<GameObject> GetAllChildrenGameObjectsFromGameObject(Transform transform)
     {
         if (transform == null)
@@ -39,6 +37,7 @@ public class Utils : MonoBehaviour
 
         return gameObject.transform.parent.gameObject;
     }
+
     public static Transform sortCard(Transform dropZoneTransform)
     {
         Dictionary<GameObject, Card> toSort = new Dictionary<GameObject, Card>();
@@ -56,5 +55,43 @@ public class Utils : MonoBehaviour
         }
 
         return dropZoneTransform;
+    }
+
+    public static GameObject getLastChild(GameObject gameObject)
+    {
+        if (gameObject == null)
+        {
+            return null;
+        }
+
+        while(gameObject.transform.childCount > 0)
+        {
+            gameObject = gameObject.transform.GetChild(0).gameObject;
+        }
+
+        return gameObject;
+    }
+    public static bool isFieldStable()
+    {
+        Transform dropZoneAreaTransform = GameObject.Find("DropZoneArea").transform;
+
+        for(int i = 0; i < dropZoneAreaTransform.childCount; i++)
+        {
+            if (!isDropZoneStable(dropZoneAreaTransform.GetChild(i).gameObject))
+            {
+                GameObject.Find("ErrorMessage").GetComponent<ErrorMessage>().setTextAndShow("Table not stable");
+                return false;
+            }
+        }
+
+        return true;
+    }
+    private static bool isDropZoneStable(GameObject dropZone)
+    {
+        /* REGOLE:
+         *  1. The dropZone can be empty
+         *  2. If not empty, atleast 3 cards
+         */
+        return dropZone.transform.childCount == 0 || Utils.GetAllChildrenGameObjectsFromGameObject(dropZone.transform).Count > 2;
     }
 }

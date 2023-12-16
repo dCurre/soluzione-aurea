@@ -38,52 +38,14 @@ public class PassTurn : MonoBehaviour
 
     public void onTurnPass()
     {
-        if (!isFieldStable())
+        if (!Utils.isFieldStable())
         {
-            errorMessage.setTextAndShow("Table not stable");
             return;
         }
         cardManager.draw(dropdownPassTurn.value, activePlayer.getActivePlayer(), activePlayer.getActivePlayer().GetComponent<AreaPlayer>());
         activePlayer.switchActivePlayer();
     }
 
-    private bool isFieldStable()
-    {
-        foreach(GameObject dropZone in dropZones)
-        {
-            if (!isDropZoneStable(dropZone))
-            {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    private bool isDropZoneStable(GameObject dropZone)
-    {
-        /* REGOLE:
-         *  1. La zona deve essere vuota
-         *  2. Se ci sono carte --> almeno 3 carte
-         *  3. Se ci sono carte --> devono essere scale o dello stesso valore
-         */
-        if (dropZone.transform.childCount == 0)
-        {
-            return true;
-        }
-
-        List<GameObject> children = Utils.GetAllChildrenGameObjectsFromGameObject(dropZone.transform);
-
-        if (children.Count > 2)
-        {
-
-            Debug.Log("Children Count: " + children.Count);
-
-            return false;
-        }
-
-        return false;
-    }
     private void setupDropdownOptions()
     {
         int cardsInHand = activePlayer.getActivePlayer().GetComponent<AreaPlayer>().cardsInHand;
