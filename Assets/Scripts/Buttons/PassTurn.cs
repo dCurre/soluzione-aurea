@@ -38,7 +38,7 @@ public class PassTurn : MonoBehaviour
         {
             return;
         }
-        cardManager.draw(dropdownPassTurn.value, activePlayer.getActivePlayer(), activePlayer.getActivePlayer().GetComponent<AreaPlayer>());
+        cardManager.draw(dropdownPassTurn.value, activePlayer.getActivePlayer());
         activePlayer.switchActivePlayer();
         GameHistory.currentTurn += 1;
     }
