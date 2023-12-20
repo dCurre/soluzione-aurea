@@ -8,12 +8,6 @@ public class ErrorMessage : MonoBehaviour
 
     public TextMeshProUGUI errorMessage;
     private bool shown = false;
-    void Start()
-    {
-        errorMessage.SetText("Prova");
-    }
-
-    // Update is called once per frame
     void Update()
     {
         if (shown)

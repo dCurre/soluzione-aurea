@@ -798,6 +798,8 @@ MonoBehaviour:
   dropdownPassTurn: {fileID: 553583044221411935}
   ActivePlayer: {fileID: 0}
   Game: {fileID: 0}
+  errorMessage: {fileID: 0}
+  dropZoneArea: {fileID: 0}
 --- !u!1 &7873793406170632372
 GameObject:
   m_ObjectHideFlags: 0

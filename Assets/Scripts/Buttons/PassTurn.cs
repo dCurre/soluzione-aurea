@@ -1,7 +1,5 @@
 using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
-using System.Runtime.InteropServices.WindowsRuntime;
 using UnityEngine;
 
 public class PassTurn : MonoBehaviour
@@ -14,7 +12,6 @@ public class PassTurn : MonoBehaviour
 
     private ActivePlayer activePlayer;
     private CardManager cardManager;
-    private List<GameObject> dropZones;
 
     private readonly Dictionary<int, string> dropdownOptions = new() {
         { 0, "" },
@@ -27,7 +24,6 @@ public class PassTurn : MonoBehaviour
     {
         activePlayer = ActivePlayer.GetComponent<ActivePlayer>();
         cardManager = Game.GetComponent<CardManager>();
-        dropZones = GameObject.FindGameObjectsWithTag("Dropzone").ToList();
         setupDropdownOptions();
     }
 
@@ -44,6 +40,7 @@ public class PassTurn : MonoBehaviour
         }
         cardManager.draw(dropdownPassTurn.value, activePlayer.getActivePlayer(), activePlayer.getActivePlayer().GetComponent<AreaPlayer>());
         activePlayer.switchActivePlayer();
+        GameHistory.currentTurn += 1;
     }
 
     private void setupDropdownOptions()

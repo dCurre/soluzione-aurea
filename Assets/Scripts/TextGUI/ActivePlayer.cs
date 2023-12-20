@@ -9,13 +9,11 @@ public class ActivePlayer : MonoBehaviour
     public GameObject AreaPlayer;
     public GameObject AreaPlayer2;
 
-    // Start is called before the first frame update
     void Start()
     {
         updateTextActivePlayer();
     }
 
-    // Update is called once per frame
     void Update()
     {
         updateTextActivePlayer();

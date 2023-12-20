@@ -18,6 +18,4 @@ public class Game : MonoBehaviour
         CardManager.draw(GameConstants.MAX_HAND, AreaPlayer, AreaPlayerScript);
         CardManager.draw(GameConstants.MAX_HAND, AreaPlayer2, AreaPlayer2Script);
     }
-
-
 }

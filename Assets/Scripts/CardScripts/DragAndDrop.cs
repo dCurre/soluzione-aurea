@@ -55,6 +55,9 @@ public class DragAndDrop : MonoBehaviour
         transform.SetParent(
             (dropZone.tag == TagConstants.DiscardZone) ? Utils.getLastChild(dropZone).transform : dropZone.transform,
             false);
+
+        //Saving move history
+        GameHistory.SaveHistory(new Action(transform.gameObject, startingPickupZone, dropZone, GameHistory.currentTurn));
     }
 
     private bool isValidDropzone()
@@ -69,7 +72,7 @@ public class DragAndDrop : MonoBehaviour
         DropZone dropZoneScript = dropZone.GetComponent<DropZone>();
 
         //Cards on discardZone can't be put in hand
-        if (dropZoneTransform.tag == TagConstants.Player && startingPickupZone.tag == TagConstants.DiscardZone)
+        if (dropZoneTransform.tag == TagConstants.Player && (startingPickupZone.tag == TagConstants.DiscardZone || startingPickupZone.tag == TagConstants.Dropzone))
         {
             return false;
         }
